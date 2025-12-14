@@ -30,15 +30,29 @@ services:
       consul:
         condition: service_started
 
+<<<<<<< HEAD
   service-discovery:
     build: ./service-discovery
     ports:
       - "5004:5004"
+=======
+  payment-service:          ← НОВЫЙ СЕРВИС
+    build: ./payment-service
+    ports:
+      - "5003:5000"
+>>>>>>> 2bd34f6028118bf4999c6764c29535e49a6c6106
     networks:
       - microservices-net
     depends_on:
       consul:
         condition: service_started
+<<<<<<< HEAD
+=======
+    environment:            ← ПЕРЕМЕННЫЕ ДЛЯ ПЛАТЕЖНЫХ СИСТЕМ
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-sk_test_xxx}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-whsec_xxx}
+      - YOOMONEY_WALLET=${YOOMONEY_WALLET:-410011111111111}
+>>>>>>> 2bd34f6028118bf4999c6764c29535e49a6c6106
 
   nginx:
     image: nginx:alpine
@@ -49,12 +63,18 @@ services:
     networks:
       - microservices-net
     depends_on:
+<<<<<<< HEAD
       auth-service:
         condition: service_started
       catalog-service:
         condition: service_started
       service-discovery:
         condition: service_started
+=======
+      - auth-service
+      - catalog-service
+      - payment-service    ← ДОБАВИТЬ ЗАВИСИМОСТЬ
+>>>>>>> 2bd34f6028118bf4999c6764c29535e49a6c6106
 
 networks:
   microservices-net:

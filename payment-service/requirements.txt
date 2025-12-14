@@ -1,0 +1,6 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+stripe==7.7.0
+yoomoney==0.18.0
+httpx==0.25.1
+pydantic==2.5.0
