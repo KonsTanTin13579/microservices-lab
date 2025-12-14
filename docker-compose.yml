@@ -28,6 +28,20 @@ services:
       consul:
         condition: service_started
 
+  payment-service:          ← НОВЫЙ СЕРВИС
+    build: ./payment-service
+    ports:
+      - "5003:5000"
+    networks:
+      - microservices-net
+    depends_on:
+      consul:
+        condition: service_started
+    environment:            ← ПЕРЕМЕННЫЕ ДЛЯ ПЛАТЕЖНЫХ СИСТЕМ
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-sk_test_xxx}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-whsec_xxx}
+      - YOOMONEY_WALLET=${YOOMONEY_WALLET:-410011111111111}
+
   nginx:
     image: nginx:alpine
     ports:
@@ -37,10 +51,9 @@ services:
     networks:
       - microservices-net
     depends_on:
-      auth-service:
-        condition: service_started
-      catalog-service:
-        condition: service_started
+      - auth-service
+      - catalog-service
+      - payment-service    ← ДОБАВИТЬ ЗАВИСИМОСТЬ
 
 networks:
   microservices-net:
