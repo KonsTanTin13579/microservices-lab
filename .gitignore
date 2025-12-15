@@ -1,0 +1,15 @@
+# Ignore test logs and backups
+test-logs/
+*.bak_*
+
+# Editor/temp files
+*.swp
+*.swo
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Python / env
+__pycache__/
+*.pyc
+.env
