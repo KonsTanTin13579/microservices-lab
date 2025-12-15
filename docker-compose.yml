@@ -44,15 +44,27 @@ services:
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-whsec_xxx}
       - YOOMONEY_WALLET=${YOOMONEY_WALLET:-410011111111111}
 
-  service-discovery:
-    build: ./service-discovery
+  order-service:
+    build: ./order-service
     ports:
-      - "5004:5004"
+      - "5004:5000"
     networks:
       - microservices-net
     depends_on:
-      consul:
-        condition: service_started
+      - catalog-service
+      - auth-service
+
+  graphql-gateway:
+    build: ./graphql-gateway
+    ports:
+      - "5005:5000"
+    networks:
+      - microservices-net
+    depends_on:
+      - auth-service
+      - catalog-service
+      - order-service
+      - payment-service
 
   nginx:
     image: nginx:alpine
@@ -66,7 +78,8 @@ services:
       - auth-service
       - catalog-service
       - payment-service
-      - service-discovery
+      - order-service
+      - graphql-gateway
 
 networks:
   microservices-net:
