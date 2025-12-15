@@ -1,4 +1,4 @@
-# test-rest-graphql-comparison.ps1
+﻿# test-rest-graphql-comparison.ps1
 Write-Host "=== Сравнение REST vs GraphQL запросов ===" -ForegroundColor Cyan
 Write-Host ""
 
@@ -161,7 +161,7 @@ for ($orderNum = 1; $orderNum -le 3; $orderNum++) {
         Write-Host "✓ Заказ создан: $($orderResponse.id) (товаров: $($orderItems.Count))" -ForegroundColor Green
         
     } catch {
-        Write-Host "✗ Ошибка создания заказа $orderNum: $_" -ForegroundColor Red
+        Write-Host "✗ Ошибка создания заказа $($orderNum): $($_)" -ForegroundColor Red
     }
 }
 
